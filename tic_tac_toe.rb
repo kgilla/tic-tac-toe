@@ -1,18 +1,17 @@
 def self.greeting
-  puts '--Hey there! Welcome to Tic Tac Toe!--'
-  print "\n"
-  puts 'The object of the game is to get 3 of your symbol in a row!'
-  puts 'The board will be divided into numbers like:'
-  print "\n"
+  puts "--Hey there! Welcome to Tic Tac Toe!--"
+  puts "\nThe object of the game is to get 3 of your symbol in a row!"
+  puts "The board will be divided into numbers like:"
+  puts " "
   GameBoard.draw_layout
-  print "\n"
-  puts 'Simply choose an open space with the corresponding number to make your move! Have fun!'
+  puts "\nSimply choose an open space with the corresponding number to make your move! Have fun!"
+  sleep(3)
 end
 
 class GameBoard 
   attr_accessor :board  
   def initialize
-    @board = [' ',' ',' ',' ',' ',' ',' ',' ',' ']
+    @board = [" "," "," "," "," "," "," "," "," "]
   end
 
   def self.draw_layout 
@@ -44,9 +43,10 @@ class PlayerMaker
   end
 
   def self.symbol_choice
-    puts 'Player one, choose X or O as your symbol:'
+    puts " "
+    puts "Player one, choose X or O as your symbol:"
     player_one_symbol = gets.chomp.upcase!
-    if player_one_symbol != ('X') && player_one_symbol != ('O')
+    if player_one_symbol != ("X") && player_one_symbol != ("O")
       puts "Not a valid entry, please choose again!"
       player_symbol_choice()
     end
@@ -55,13 +55,13 @@ class PlayerMaker
   
   def self.symbol_assign (player_one_symbol)
     player_two_symbol = ""
-    if player_one_symbol == 'X'
-      player_two_symbol = 'O'
+    if player_one_symbol == "X"
+      player_two_symbol = "O"
     else
-      player_two_symbol = 'X'
+      player_two_symbol = "X"
     end
-    puts "Great selection! Player one will be: #{player_one_symbol} and player two will take the leftover: #{player_two_symbol}"
-    puts " "
+    puts "\nGreat selection! Player one will be: #{player_one_symbol} and player two will take the leftover: #{player_two_symbol}"
+    sleep(3)
     return player_two_symbol
   end
 end
@@ -69,21 +69,23 @@ end
 def first_turn(player_one)
   turns = ["X","O"]
   this_turn = turns[rand(2)]
-  puts "Rolling the dice to see who goes first..."
+  puts "\nRolling the dice to see who goes first..."
+  sleep(1)
   if player_one.symbol == this_turn
     puts "Looks like player one gets to go first!"
   else
     puts "Looks like player two gets to go first!"
   end
+  sleep(1)
   return this_turn
 end
 
 def get_player_input (current_turn, player_one, new_board)
   if player_one.symbol == current_turn
-    puts "## Player one, choose a square by entering a number 1-9! ##"
+    puts "\n## Player one, choose a square by entering a number 1-9! ##"
     input = gets.chomp.to_i
   else
-    puts "## Player two, choose a square by entering a number 1-9! ##"
+    puts "\n## Player two, choose a square by entering a number 1-9! ##"
     input = gets.chomp.to_i
   end
   if new_board.board[input - 1] == " "
@@ -120,11 +122,13 @@ def turn_switch (current_turn)
   return current_turn
 end
 
-def congragulations (current_turn, player_one)
+def congragulations (current_turn, player_one, player_two)
   if player_one.symbol == current_turn
     puts "Congrats player one! You Win!"
+    player_one.wins += 1
   else
     puts "Congrats player two! You Win!"
+    player_two.wins += 1
   end
 end
 
@@ -143,6 +147,8 @@ end
 
 # Main Game Loop
 def game_round (player_one, player_two)
+  # Initializes new round, new board, assigns first turn randomly
+  puts "\nCurrent Score:\n Player One: #{player_one.wins}\t Player Two: #{player_two.wins}"
   game_over = false
   round_count = 0
   current_turn = first_turn(player_one)
@@ -153,7 +159,7 @@ def game_round (player_one, player_two)
     GameBoard.draw_board(new_board.board)
     game_over = find_winner(new_board.board, current_turn)
     if game_over == true
-      congragulations(current_turn, player_one)
+      congragulations(current_turn, player_one, player_two)
       play_again(player_one, player_two)
     elsif round_count == 9
       puts "A Tie?!"
