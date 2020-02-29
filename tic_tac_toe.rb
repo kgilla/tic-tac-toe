@@ -118,4 +118,4 @@ player_one_symbol = player_one_symbol_choice()
 player_two_symbol = player_two_symbol_choice(player_one_symbol)
 player_one = PlayerMaker.new(player_one_symbol)
 player_two = PlayerMaker.new(player_two_symbol)
-puts player_one[symbol]
+puts player_one
