@@ -1,13 +1,3 @@
-def self.greeting
-  puts "--Hey there! Welcome to Tic Tac Toe!--"
-  puts "\nThe object of the game is to get 3 of your symbol in a row!"
-  puts "The board will be divided into numbers like:"
-  puts " "
-  GameBoard.draw_layout
-  puts "\nSimply choose an open space with the corresponding number to make your move! Have fun!"
-  sleep(3)
-end
-
 class GameBoard 
   attr_accessor :board  
   def initialize
@@ -66,6 +56,28 @@ class PlayerMaker
   end
 end
 
+# Main Game Loop
+def game_round (player_one, player_two)
+  puts "\nCurrent Score:\n Player One: #{player_one.wins}\t Player Two: #{player_two.wins}"
+  game_over = false; round_count = 0; new_board = GameBoard.new
+  current_turn = first_turn(player_one)
+  while game_over == false
+    input = get_player_input(current_turn, player_one, new_board)
+    round_count+=1
+    GameBoard.draw_board(new_board.board)
+    game_over = find_winner(new_board.board, current_turn)
+    if game_over == true
+      congragulations(current_turn, player_one, player_two)
+      play_again(player_one, player_two)
+    elsif round_count == 9
+      puts "A Tie?!"
+      play_again(player_one, player_two)
+    end
+    current_turn = turn_switch(current_turn)
+  end
+end
+
+# Main Loop Functions 
 def first_turn(player_one)
   turns = ["X","O"]
   this_turn = turns[rand(2)]
@@ -145,28 +157,14 @@ def play_again(player_one, player_two)
   end
 end 
 
-# Main Game Loop
-def game_round (player_one, player_two)
-  # Initializes new round, new board, assigns first turn randomly
-  puts "\nCurrent Score:\n Player One: #{player_one.wins}\t Player Two: #{player_two.wins}"
-  game_over = false
-  round_count = 0
-  current_turn = first_turn(player_one)
-  new_board = GameBoard.new
-  while game_over == false
-    input = get_player_input(current_turn, player_one, new_board)
-    round_count+=1
-    GameBoard.draw_board(new_board.board)
-    game_over = find_winner(new_board.board, current_turn)
-    if game_over == true
-      congragulations(current_turn, player_one, player_two)
-      play_again(player_one, player_two)
-    elsif round_count == 9
-      puts "A Tie?!"
-      play_again(player_one, player_two)
-    end
-    current_turn = turn_switch(current_turn)
-  end
+def greeting
+  puts "--Hey there! Welcome to Tic Tac Toe!--"
+  puts "\nThe object of the game is to get 3 of your symbol in a row!"
+  puts "The board will be divided into numbers like:"
+  puts " "
+  GameBoard.draw_layout
+  puts "\nSimply choose an open space with the corresponding number to make your move! Have fun!"
+  sleep(3)
 end
 
 # Assigns Symbols and Starts Game
