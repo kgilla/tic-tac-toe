@@ -50,7 +50,7 @@ class PlayerMaker
     else
       player_two_symbol = "X"
     end
-    puts "\nGreat selection! Player one will be: #{player_one_symbol} and player two will take the leftover: #{player_two_symbol}"
+    puts "\nGreat selection! Player one will be: #{player_one_symbol} and player two will be: #{player_two_symbol}"
     sleep(3)
     return player_two_symbol
   end
@@ -145,7 +145,7 @@ def congragulations (current_turn, player_one, player_two)
 end
 
 def play_again(player_one, player_two)
-  puts "Want to play again? (Y / N)"
+  puts "Want to play again? (Y/N)"
   response = gets.chomp.upcase!
   if response == "Y"
     game_round(player_one, player_two)
